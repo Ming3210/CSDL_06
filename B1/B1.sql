@@ -30,3 +30,5 @@ select o.ProductName, max(o.Price) as totalOrders from orders o group by o.Produ
 
 select o.orderdate, count(o.quantity) from orders o group by o.orderdate;
 
+select o.CustomerName, min(o.price) from orders o group by o.CustomerName;
+
