@@ -31,18 +31,18 @@ order by a.AppointmentDate;
 
 
 select 
-    (select fullname from patientsb10 where patientid = a.patientid) as patientname,
-    (select fullname from doctorsb10 where doctorid = a.doctorid) as doctorname,
+    (select fullname from patients where patientid = a.patientid) as patientname,
+    (select fullname from doctors where doctorid = a.doctorid) as doctorname,
     a.appointmentdate,
     (select diagnosis 
-     from medicalrecordsb10 
+     from medicalrecords
      where patientid = a.patientid 
      and doctorid = a.doctorid 
      limit 1) as diagnosis
-from appointmentsb10 a
+from appointments a
 where a.patientid in (
     select patientid 
-    from appointmentsb10 
+    from appointments
     group by patientid, doctorid
     having count(appointmentid) >= 2
 );
