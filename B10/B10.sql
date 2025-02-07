@@ -31,19 +31,21 @@ order by a.AppointmentDate;
 
 
 select 
-    (select FullName from Patients where PatientID = a.PatientID) as PatientName,
-    (select FullName from Doctors where DoctorID = a.DoctorID) as DoctorName,
-    a.AppointmentDate,
-    (select Diagnosis from MedicalRecords 
-     where PatientID = a.PatientID and DoctorID = a.DoctorID) as Diagnosis
-from Appointments a
-where exists (
-    select 1 from Appointments a2 
-    where a2.PatientID = a.PatientID 
-    and a2.DoctorID = a.DoctorID
-    and a2.AppointmentID != a.AppointmentID
-)
-order by PatientName, AppointmentDate;
+    (select fullname from patientsb10 where patientid = a.patientid) as patientname,
+    (select fullname from doctorsb10 where doctorid = a.doctorid) as doctorname,
+    a.appointmentdate,
+    (select diagnosis 
+     from medicalrecordsb10 
+     where patientid = a.patientid 
+     and doctorid = a.doctorid 
+     limit 1) as diagnosis
+from appointmentsb10 a
+where a.patientid in (
+    select patientid 
+    from appointmentsb10 
+    group by patientid, doctorid
+    having count(appointmentid) >= 2
+);
 
 
 select 
