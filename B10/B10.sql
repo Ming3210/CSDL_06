@@ -59,13 +59,4 @@ from Appointments a
 order by a.AppointmentDate;
 
 
-select 
-    concat('BENH NHAN: ', upper(p.FullName), ' - BAC SI: ', upper(d.FullName)) as ParticipantInfo,
-    a.AppointmentDate,
-    mr.Diagnosis,
-    a.Status
-from Appointments a
-join Patients p on a.PatientID = p.PatientID
-join Doctors d on a.DoctorID = d.DoctorID
-left join MedicalRecords mr on a.PatientID = mr.PatientID and a.DoctorID = mr.DoctorID
-order by a.AppointmentDate;
+ 
